@@ -8,10 +8,9 @@
 ## 2. Công nghệ sử dụng (Tech Stack)
 - **Backend**: Node.js, Express.js.
 - **Database**: MongoDB (Mongoose ODM).
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla), Template Engine (Jade/Pug).
+- **Frontend**: HTML, CSS, JS
 - **Real-time**: Socket.io (cho tính năng Chat Connect).
 - **Authentication**: JWT (JSON Web Token) kết hợp cookie-parser.
-- **Styling**: Vanilla CSS (Premium & Modern Aesthetics).
 
 ---
 

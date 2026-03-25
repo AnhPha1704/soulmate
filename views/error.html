@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Lỗi Server</title>
+</head>
+<body>
+    <h1>Đã xảy ra lỗi!</h1>
+    <p>Thông báo: <%= message %></p>
+    <% if (typeof error !== 'undefined') { %>
+        <pre><%= error.status %>: <%= error.stack %></pre>
+    <% } %>
+</body>
+</html>

@@ -66,19 +66,18 @@ Tài liệu hướng dẫn sử dụng các Endpoint API của dự án SoulMate
 
 ## 3. Nhật ký tâm trạng (MoodLogs)
 
-### 3.1 Viết Nhật ký mới
+### 3.1 Viết Nhật ký mới & Gợi ý nhiệm vụ (Giai đoạn 2.1)
 - **Method:** POST
 - **URL:** http://localhost:3000/api/mood-logs
+- **Ghi chú:** Khi tạo nhật ký, hệ thống sẽ tự động tìm và giao một nhiệm vụ phù hợp với tâm trạng.
 - **Body (raw JSON):**
 ```json
 {
-  "user_id": "ID_USER_CUA_BAN",
   "mood_type": "Vui",
-  "journal_content": "Hôm nay là một ngày tuyệt vời!",
-  "tags": ["work", "happy"]
+  "journal_content": "Hôm nay tôi rất hạnh phúc vì đạt kết quả tốt!",
+  "tags": ["success", "happy"]
 }
 ```
-
 ---
 
 ## 4. Hệ thống Nhiệm vụ (Tasks)
@@ -115,7 +114,7 @@ Tài liệu hướng dẫn sử dụng các Endpoint API của dự án SoulMate
 }
 ```
 
-### 5.2 Cập nhật trạng thái nhiệm vụ
+### 5.2 Cập nhật trạng thái nhiệm vụ (Hoàn thành để nhận EXP ở 2.2)
 - **Method:** PATCH
 - **URL:** http://localhost:3000/api/user-tasks/ID_USERTASK_CUA_BAN
 - **Body (raw JSON):**
@@ -164,3 +163,14 @@ Sử dụng tham số `fields` để chỉ lấy các trường cần thiết (p
 - **Chỉ lấy tiêu đề và cấp độ ưu tiên của nhiệm vụ:**
     - **Method:** GET
     - **URL:** `http://localhost:3000/api/tasks?fields=title,priority`
+
+4. **Bước 4: Kiểm tra tính năng chuyển cấp độ của Thú ảo (Gamification - Stage 2.2)**
+   - Lấy ID (`progress_id`) mà bước 2 trả về.
+   - Gọi `PATCH /api/user-tasks/{progress_id}` với Body:
+   ```json
+   {
+       "status": "done"
+   }
+   ```
+   - **Kỳ vọng:** Response trả về thông báo chúc mừng nhận được EXP hoặc Level Up. Điểm EXP của Pet sẽ tăng đúng bằng `exp_reward` của nhiệm vụ.
+   - Gọi tiếp API đó 1 lần nữa để test "Kiểm tra chống gian lận" (hệ thống sẽ báo lỗi và từ chối phát điểm lặp lại).

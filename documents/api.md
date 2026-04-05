@@ -66,19 +66,18 @@ Tài liệu hướng dẫn sử dụng các Endpoint API của dự án SoulMate
 
 ## 3. Nhật ký tâm trạng (MoodLogs)
 
-### 3.1 Viết Nhật ký mới
+### 3.1 Viết Nhật ký mới & Gợi ý nhiệm vụ (Giai đoạn 2.1)
 - **Method:** POST
 - **URL:** http://localhost:3000/api/mood-logs
+- **Ghi chú:** Khi tạo nhật ký, hệ thống sẽ tự động tìm và giao một nhiệm vụ phù hợp với tâm trạng.
 - **Body (raw JSON):**
 ```json
 {
-  "user_id": "ID_USER_CUA_BAN",
   "mood_type": "Vui",
-  "journal_content": "Hôm nay là một ngày tuyệt vời!",
-  "tags": ["work", "happy"]
+  "journal_content": "Hôm nay tôi rất hạnh phúc vì đạt kết quả tốt!",
+  "tags": ["success", "happy"]
 }
 ```
-
 ---
 
 ## 4. Hệ thống Nhiệm vụ (Tasks)
@@ -115,7 +114,7 @@ Tài liệu hướng dẫn sử dụng các Endpoint API của dự án SoulMate
 }
 ```
 
-### 5.2 Cập nhật trạng thái nhiệm vụ
+### 5.2 Cập nhật trạng thái nhiệm vụ (Hoàn thành để nhận EXP ở 2.2)
 - **Method:** PATCH
 - **URL:** http://localhost:3000/api/user-tasks/ID_USERTASK_CUA_BAN
 - **Body (raw JSON):**

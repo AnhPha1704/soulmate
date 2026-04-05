@@ -265,14 +265,14 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
     *   [x] API Đăng ký, Đăng nhập, Đăng xuất.
 *   **1.3 Xây dựng Models & CRUD cơ bản:**
     *   [x] Hoàn thiện Models: `Pet`, `MoodLog`, `Task`, `UserTask`.
-    *   [ ] API CRUD cho **Users**: Cập nhật Profile, Xóa mềm.
-    *   [ ] API CRUD cho **Pets**: Tạo Pet khi đăng ký, Xem trạng thái.
-    *   [ ] API CRUD cho **MoodLogs**: Viết nhật ký, xem lịch sử (Lọc theo thời gian).
-    *   [ ] API CRUD cho **Tasks**: Quản lý dành cho Admin.
+    *   [x] API CRUD cho **Users**: Cập nhật Profile, Xóa mềm.
+    *   [x] API CRUD cho **Pets**: Tạo Pet khi đăng ký, Xem trạng thái.
+    *   [x] API CRUD cho **MoodLogs**: Viết nhật ký, xem lịch sử (Lọc theo thời gian).
+    *   [x] API CRUD cho **Tasks**: Quản lý dành cho Admin.
 
 ### Giai đoạn 2: Hệ thống Logic lõi (Tuần 3)
 *   **2.1 Logic gợi ý nhiệm vụ:**
-    *   [ ] Phát triển thuật toán `RecommendTask`: Tự động giao nhiệm vụ dựa trên `mood_type` trong nhật ký mới nhất.
+    *   [x] Phát triển thuật toán `RecommendTask`: Tự động giao nhiệm vụ dựa trên `mood_type` trong nhật ký mới nhất.
 *   **2.2 Gamification (Pet System):**
     *   [ ] Viết logic cập nhật trạng thái `UserTask` (Doing -> Done).
     *   [ ] Logic cộng EXP cho Pet & Tự động thăng cấp (Level up) khi đủ điểm.

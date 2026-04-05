@@ -255,38 +255,43 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
 
 ## 7. LỘ TRÌNH PHÁT TRIỂN CHI TIẾT (DETAILED ROADMAP)
 
-### Giai đoạn 1: Nền tảng & MVP
+### Giai đoạn 1: Nền tảng & MVP ✅
 *   **1.1 Khởi tạo dự án:**
     *   [x] Thiết lập Express Server & Cấu trúc thư mục MVC.
     *   [x] Kết nối MongoDB & Cấu hình Docker Compose.
 *   **1.2 Hệ thống Xác thực (Auth):**
-    *   [x] Model User (Hỗ trợ băm mật khẩu).
+    *   [x] Model User (Hỗ trợ băm mật khẩu bcrypt).
     *   [x] Middleware xác thực JWT & Cookie Parser.
-    *   [x] API Đăng ký, Đăng nhập, Đăng xuất.
+    *   [x] API Đăng ký (`register`), Đăng nhập (`login`), Đăng xuất (`logout`).
 *   **1.3 Xây dựng Models & CRUD cơ bản:**
     *   [x] Hoàn thiện Models: `Pet`, `MoodLog`, `Task`, `UserTask`.
-    *   [x] API CRUD cho **Users**: Cập nhật Profile, Xóa mềm.
-    *   [x] API CRUD cho **Pets**: Tạo Pet khi đăng ký, Xem trạng thái.
-    *   [x] API CRUD cho **MoodLogs**: Viết nhật ký, xem lịch sử (Lọc theo thời gian).
-    *   [x] API CRUD cho **Tasks**: Quản lý dành cho Admin.
+    *   [x] API CRUD cho **Users**: Xem profile, Cập nhật, Xóa mềm.
+    *   [x] API CRUD cho **Pets**: Tạo, Xem trạng thái, Cập nhật tên/mood_state.
+    *   [x] API CRUD cho **MoodLogs**: Viết nhật ký, xem lịch sử, cập nhật, xóa mềm.
+    *   [x] API CRUD cho **Tasks**: Tạo, Xem, Cập nhật, Xóa (Admin).
+    *   [x] API CRUD cho **UserTasks**: Giao nhiệm vụ, Xem danh sách, Xóa mềm.
 
-### Giai đoạn 2: Hệ thống Logic lõi
+### Giai đoạn 2: Hệ thống Logic lõi ✅
 *   **2.1 Logic gợi ý nhiệm vụ:**
-    *   [x] Phát triển thuật toán `RecommendTask`: Tự động giao nhiệm vụ dựa trên `mood_type` trong nhật ký mới nhất.
+    *   [x] Thuật toán `RecommendTask`: Tự động giao nhiệm vụ theo `mood_type` của nhật ký mới nhất. Có fallback sang `General` nếu không khớp.
 *   **2.2 Gamification (Pet System):**
-    *   [x] Viết logic cập nhật trạng thái `UserTask` (Doing -> Done).
-    *   [x] Logic cộng EXP cho Pet & Tự động thăng cấp (Level up) khi đủ điểm.
+    *   [x] Cập nhật trạng thái `UserTask` (pending → doing → done). Chặn gian lận nhận EXP lại.
+    *   [x] Cộng EXP cho Pet & Tự động thăng cấp (Level up) theo thuật toán RPG (độ khó tăng dần).
 *   **2.3 Tìm kiếm & Sắp xếp nâng cao:**
-    *   [x] Tích hợp tìm kiếm Full-text search cho nội dung nhật ký.
+    *   [x] Full-text search cho MoodLogs (`/api/mood-logs/search`).
+    *   [x] Full-text search cho Tasks (`/api/tasks/search`).
+    *   [x] Sắp xếp linh hoạt qua query param `?sort=` cho tất cả collections.
 
-### Giai đoạn 3: Social, Thống kê & Real-time
+### Giai đoạn 3: Social, Thống kê & Real-time ✅
 *   **3.1 Soul Connect (Real-time Chat):**
-    *   [x] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.
+    *   [x] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung (`socket/chatHandler.js`).
 *   **3.2 Báo cáo & Phân tích (Stats API):**
-    *   [ ] Triển khai 10 câu truy vấn Aggregate nâng cao đã thiết kế ở mục 6.2.
-    *   [ ] API thống kê xu hướng tâm trạng theo tuần/tháng.
+    *   [x] Triển khai 10 câu truy vấn Aggregate nâng cao đã thiết kế ở mục 6.2.
+    *   [x] API thống kê xu hướng tâm trạng theo tuần/tháng (`GET /api/stats/mood-summary`).
+    *   [x] API bảng xếp hạng Pet (`GET /api/stats/leaderboard`).
+    *   [x] API tỷ lệ hoàn thành nhiệm vụ (`GET /api/stats/task-completion`).
 
-### Giai đoạn 4: Hoàn thiện & Giao diện
+### Giai đoạn 4: Hoàn thiện & Giao diện ⏳
 *   **4.1 Frontend Integration:**
     *   [ ] Xây dựng giao diện Web (HTML/CSS/JS) tối ưu cho Mobile.
     *   [ ] Tích hợp các API đã viết vào giao diện.

@@ -123,3 +123,14 @@ Tài liệu hướng dẫn sử dụng các Endpoint API của dự án SoulMate
   "status": "done"
 }
 ```
+
+4. **Bước 4: Kiểm tra tính năng chuyển cấp độ của Thú ảo (Gamification - Stage 2.2)**
+   - Lấy ID (`progress_id`) mà bước 2 trả về.
+   - Gọi `PATCH /api/user-tasks/{progress_id}` với Body:
+   ```json
+   {
+       "status": "done"
+   }
+   ```
+   - **Kỳ vọng:** Response trả về thông báo chúc mừng nhận được EXP hoặc Level Up. Điểm EXP của Pet sẽ tăng đúng bằng `exp_reward` của nhiệm vụ.
+   - Gọi tiếp API đó 1 lần nữa để test "Kiểm tra chống gian lận" (hệ thống sẽ báo lỗi và từ chối phát điểm lặp lại).

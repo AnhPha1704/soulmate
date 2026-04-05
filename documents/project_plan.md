@@ -255,7 +255,7 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
 
 ## 7. LỘ TRÌNH PHÁT TRIỂN CHI TIẾT (DETAILED ROADMAP)
 
-### Giai đoạn 1: Nền tảng & MVP (Tuần 1-2) - [ĐANG THỰC HIỆN]
+### Giai đoạn 1: Nền tảng & MVP
 *   **1.1 Khởi tạo dự án:**
     *   [x] Thiết lập Express Server & Cấu trúc thư mục MVC.
     *   [x] Kết nối MongoDB & Cấu hình Docker Compose.
@@ -270,7 +270,7 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
     *   [x] API CRUD cho **MoodLogs**: Viết nhật ký, xem lịch sử (Lọc theo thời gian).
     *   [x] API CRUD cho **Tasks**: Quản lý dành cho Admin.
 
-### Giai đoạn 2: Hệ thống Logic lõi (Tuần 3)
+### Giai đoạn 2: Hệ thống Logic lõi
 *   **2.1 Logic gợi ý nhiệm vụ:**
     *   [x] Phát triển thuật toán `RecommendTask`: Tự động giao nhiệm vụ dựa trên `mood_type` trong nhật ký mới nhất.
 *   **2.2 Gamification (Pet System):**
@@ -279,14 +279,14 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
 *   **2.3 Tìm kiếm & Sắp xếp nâng cao:**
     *   [ ] Tích hợp tìm kiếm Full-text search cho nội dung nhật ký.
 
-### Giai đoạn 4: Social, Thống kê & Real-time (Tuần 4)
+### Giai đoạn 3: Social, Thống kê & Real-time
 *   **4.1 Soul Connect (Real-time Chat):**
     *   [ ] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.
 *   **4.2 Báo cáo & Phân tích (Stats API):**
     *   [ ] Triển khai 10 câu truy vấn Aggregate nâng cao đã thiết kế ở mục 6.2.
     *   [ ] API thống kê xu hướng tâm trạng theo tuần/tháng.
 
-### Giai đoạn 5: Hoàn thiện & Giao diện (Tuần 5)
+### Giai đoạn 4: Hoàn thiện & Giao diện
 *   **5.1 Frontend Integration:**
     *   [ ] Xây dựng giao diện Web (HTML/CSS/JS) tối ưu cho Mobile.
     *   [ ] Tích hợp các API đã viết vào giao diện.

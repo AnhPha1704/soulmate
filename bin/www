@@ -22,6 +22,19 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * Socket.io integration
+ */
+const { Server } = require('socket.io');
+const io = new Server(server, {
+  cors: {
+    origin: '*', // Trong thực tế nên giới hạn origin
+  }
+});
+
+// Import and initialize socket handler
+require('../socket/chatHandler')(io);
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 

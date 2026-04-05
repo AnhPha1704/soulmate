@@ -124,3 +124,43 @@ Tài liệu hướng dẫn sử dụng các Endpoint API của dự án SoulMate
   "status": "done"
 }
 ```
+
+---
+
+## 6. Tìm kiếm & Sắp xếp nâng cao (Phần 2.3)
+
+Hướng dẫn sử dụng các tham số truy vấn (Query Parameters) để tìm kiếm, lọc và sắp xếp dữ liệu.
+
+### 6.1 Tìm kiếm toàn văn (Full-text Search)
+Yêu cầu cung cấp từ khóa qua tham số `q` hoặc `keyword`.
+
+- **Tìm nhật ký tâm trạng:**
+    - **Method:** GET
+    - **URL:** `http://localhost:3000/api/mood-logs/search?q=tuyệt vời`
+- **Tìm nhiệm vụ:**
+    - **Method:** GET
+    - **URL:** `http://localhost:3000/api/tasks/search?keyword=thiền`
+
+### 6.2 Lọc dữ liệu (Filtering)
+Lọc theo bất kỳ trường nào có trong Schema (trừ các trường đặc biệt như `sort`, `fields`).
+
+- **Lọc nhật ký theo tâm trạng:**
+    - **Method:** GET
+    - **URL:** `http://localhost:3000/api/mood-logs?mood_type=Vui`
+- **Lọc nhiệm vụ theo danh mục:**
+    - **Method:** GET
+    - **URL:** `http://localhost:3000/api/tasks?category=Meditation`
+
+### 6.3 Sắp xếp nâng cao (Sorting)
+Sử dụng tham số `sort`. Thêm dấu `-` trước tên trường để sắp xếp giảm dần.
+
+- **Sắp xếp nhiệm vụ theo độ ưu tiên (giảm dần) và điểm thưởng (tăng dần):**
+    - **Method:** GET
+    - **URL:** `http://localhost:3000/api/tasks?sort=-priority,exp_reward`
+
+### 6.4 Giới hạn trường hiển thị (Field Limiting)
+Sử dụng tham số `fields` để chỉ lấy các trường cần thiết (phân cách bằng dấu phẩy).
+
+- **Chỉ lấy tiêu đề và cấp độ ưu tiên của nhiệm vụ:**
+    - **Method:** GET
+    - **URL:** `http://localhost:3000/api/tasks?fields=title,priority`

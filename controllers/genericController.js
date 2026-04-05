@@ -22,11 +22,32 @@ const create = (model) => (req, res, next) => {
  * @param {string|object} populate - Cấu hình nối bảng (nếu có)
  */
 const getAll = (model, populate) => (req, res, next) => {
-    let query = model.find();
+    // 1) Lọc dữ liệu (Filtering)
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields', 'keyword', 'q'];
+    excludedFields.forEach(el => delete queryObj[el]);
+
+    let query = model.find(queryObj);
 
     // Tự động lọc bỏ các bản ghi đã bị xóa mềm (is_deleted: true)
     if (model.schema.paths.is_deleted) {
         query = query.where({ is_deleted: { $ne: true } });
+    }
+
+    // 2) Sắp xếp (Sorting)
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ');
+        query = query.sort(sortBy);
+    } else {
+        query = query.sort('-created_at');
+    }
+
+    // 3) Giới hạn trường hiển thị (Field Limiting)
+    if (req.query.fields) {
+        const fields = req.query.fields.split(',').join(' ');
+        query = query.select(fields);
+    } else {
+        query = query.select('-__v');
     }
 
     // Thực hiện nối bảng nếu có yêu cầu
@@ -113,5 +134,36 @@ const delet = (model) => (req, res, next) => {
             .catch((error) => res.status(500).json({ success: false, error: error.message }));
     }
 };
+/**
+ * Tìm kiếm bản ghi bằng Full-text search
+ * @param {mongoose.Model} model - Model Mongoose
+ * @param {string|object} populate - Cấu hình nối bảng
+ */
+const search = (model, populate) => (req, res, next) => {
+    const keyword = req.query.keyword || req.query.q;
 
-module.exports = { create, getAll, get, update, delet };
+    if (!keyword) {
+        return res.status(400).json({ success: false, message: 'Vui lòng cung cấp từ khóa tìm kiếm' });
+    }
+
+    // Sử dụng toán tử $text của MongoDB để tìm kiếm toàn văn
+    // { $text: { $search: keyword } } yêu cầu model phải có text index
+    let query = model.find(
+        { $text: { $search: keyword } },
+        { score: { $meta: "textScore" } }
+    );
+
+    // Kiểm tra trạng thái xóa mềm
+    if (model.schema.paths.is_deleted) {
+        query = query.where({ is_deleted: { $ne: true } });
+    }
+
+    if (populate) query = query.populate(populate);
+
+    return query
+        .sort({ score: { $meta: "textScore" } }) // Sắp xếp theo độ phù hợp
+        .then((results) => res.status(200).json({ success: true, results }))
+        .catch((error) => res.status(500).json({ success: false, error: error.message }));
+};
+
+module.exports = { create, getAll, get, update, delet, search };

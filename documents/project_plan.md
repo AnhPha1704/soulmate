@@ -277,7 +277,7 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
     *   [ ] Viết logic cập nhật trạng thái `UserTask` (Doing -> Done).
     *   [ ] Logic cộng EXP cho Pet & Tự động thăng cấp (Level up) khi đủ điểm.
 *   **2.3 Tìm kiếm & Sắp xếp nâng cao:**
-    *   [ ] Tích hợp tìm kiếm Full-text search cho nội dung nhật ký.
+    *   [x] Tích hợp tìm kiếm Full-text search cho nội dung nhật ký.
 
 ### Giai đoạn 4: Social, Thống kê & Real-time (Tuần 4)
 *   **4.1 Soul Connect (Real-time Chat):**

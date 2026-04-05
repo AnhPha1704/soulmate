@@ -264,7 +264,7 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
     *   [x] Middleware xác thực JWT & Cookie Parser.
     *   [x] API Đăng ký, Đăng nhập, Đăng xuất.
 *   **1.3 Xây dựng Models & CRUD cơ bản:**
-    *   [ ] Hoàn thiện Models: `Pet`, `MoodLog`, `Task`, `UserTask`.
+    *   [x] Hoàn thiện Models: `Pet`, `MoodLog`, `Task`, `UserTask`.
     *   [ ] API CRUD cho **Users**: Cập nhật Profile, Xóa mềm.
     *   [ ] API CRUD cho **Pets**: Tạo Pet khi đăng ký, Xem trạng thái.
     *   [ ] API CRUD cho **MoodLogs**: Viết nhật ký, xem lịch sử (Lọc theo thời gian).

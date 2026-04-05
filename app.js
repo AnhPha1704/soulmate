@@ -9,6 +9,10 @@ const connectDB = require('./config/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/authRoutes');
+var petsRouter = require('./routes/pets');
+var moodLogsRouter = require('./routes/moodLogs');
+var tasksRouter = require('./routes/tasks');
+var userTasksRouter = require('./routes/userTasks');
 
 var app = express();
 
@@ -29,6 +33,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/pets', petsRouter);
+app.use('/api/mood-logs', moodLogsRouter);
+app.use('/api/tasks', tasksRouter);
+app.use('/api/user-tasks', userTasksRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

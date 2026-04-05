@@ -274,18 +274,14 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
 *   **2.1 Logic gợi ý nhiệm vụ:**
     *   [x] Phát triển thuật toán `RecommendTask`: Tự động giao nhiệm vụ dựa trên `mood_type` trong nhật ký mới nhất.
 *   **2.2 Gamification (Pet System):**
-    *   [ ] Viết logic cập nhật trạng thái `UserTask` (Doing -> Done).
-    *   [ ] Logic cộng EXP cho Pet & Tự động thăng cấp (Level up) khi đủ điểm.
+    *   [x] Viết logic cập nhật trạng thái `UserTask` (Doing -> Done).
+    *   [x] Logic cộng EXP cho Pet & Tự động thăng cấp (Level up) khi đủ điểm.
 *   **2.3 Tìm kiếm & Sắp xếp nâng cao:**
     *   [x] Tích hợp tìm kiếm Full-text search cho nội dung nhật ký.
 
-### Giai đoạn 4: Social, Thống kê & Real-time (Tuần 4)
-*   **4.1 Soul Connect (Real-time Chat):**
-    *   [x] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.
-*   **4.2 Báo cáo & Phân tích (Stats API):**
 ### Giai đoạn 3: Social, Thống kê & Real-time
 *   **3.1 Soul Connect (Real-time Chat):**
-    *   [ ] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.
+    *   [x] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.
 *   **3.2 Báo cáo & Phân tích (Stats API):**
     *   [ ] Triển khai 10 câu truy vấn Aggregate nâng cao đã thiết kế ở mục 6.2.
     *   [ ] API thống kê xu hướng tâm trạng theo tuần/tháng.

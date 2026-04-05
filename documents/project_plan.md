@@ -280,17 +280,17 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
     *   [x] Tích hợp tìm kiếm Full-text search cho nội dung nhật ký.
 
 ### Giai đoạn 3: Social, Thống kê & Real-time
-*   **4.1 Soul Connect (Real-time Chat):**
+*   **3.1 Soul Connect (Real-time Chat):**
     *   [ ] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.
-*   **4.2 Báo cáo & Phân tích (Stats API):**
+*   **3.2 Báo cáo & Phân tích (Stats API):**
     *   [ ] Triển khai 10 câu truy vấn Aggregate nâng cao đã thiết kế ở mục 6.2.
     *   [ ] API thống kê xu hướng tâm trạng theo tuần/tháng.
 
 ### Giai đoạn 4: Hoàn thiện & Giao diện
-*   **5.1 Frontend Integration:**
+*   **4.1 Frontend Integration:**
     *   [ ] Xây dựng giao diện Web (HTML/CSS/JS) tối ưu cho Mobile.
     *   [ ] Tích hợp các API đã viết vào giao diện.
-*   **5.2 Tối ưu & Deployment:**
+*   **4.2 Tối ưu & Deployment:**
     *   [ ] Viết Unit Test cho các logic quan trọng.
     *   [ ] Deploy ứng dụng lên VPS (Dockerized).
 

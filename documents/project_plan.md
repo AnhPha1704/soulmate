@@ -279,6 +279,10 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
 *   **2.3 Tìm kiếm & Sắp xếp nâng cao:**
     *   [x] Tích hợp tìm kiếm Full-text search cho nội dung nhật ký.
 
+### Giai đoạn 4: Social, Thống kê & Real-time (Tuần 4)
+*   **4.1 Soul Connect (Real-time Chat):**
+    *   [x] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.
+*   **4.2 Báo cáo & Phân tích (Stats API):**
 ### Giai đoạn 3: Social, Thống kê & Real-time
 *   **3.1 Soul Connect (Real-time Chat):**
     *   [ ] Tích hợp Socket.io: Tạo phòng chat ẩn danh dựa trên nhóm tâm trạng chung.

@@ -164,6 +164,31 @@ Sử dụng tham số `fields` để chỉ lấy các trường cần thiết (p
     - **Method:** GET
     - **URL:** `http://localhost:3000/api/tasks?fields=title,priority`
 
+---
+
+## 7. Soul Connect (Real-time Chat - Socket.io)
+
+Tính năng kết nối thời gian thực dựa trên tâm trạng chung.
+
+### 7.1 Kết nối (Connect)
+- **Protocol:** Socket.io
+- **URL:** `ws://localhost:3000` (hoặc `http://localhost:3000`)
+
+### 7.2 Các sự kiện (Events)
+
+| Sự kiện | Loại | Dữ liệu (JSON) | Mô tả |
+| :--- | :--- | :--- | :--- |
+| **`join_room`** | Emit | `{"mood": "Vui"}` | Tham gia vào một phòng chat theo tâm trạng. |
+| **`send_msg`** | Emit | `{"mood": "Vui", "message": "Chào bạn!"}` | Gửi tin nhắn ẩn danh tới các thành viên trong phòng. |
+| **`receive_msg`** | Listen | `{"message": "...", "sender": "...", "timestamp": "..."}` | Lắng nghe để nhận tin nhắn từ người khác. |
+| **`user_joined`** | Listen | `{"message": "..."}` | Nhận thông báo khi có người mới tham gia phòng. |
+
+### 7.3 Hướng dẫn test nhanh trên Postman Desktop
+1. Tạo request **Socket.io** mới.
+2. Connect tới `http://localhost:3000`.
+3. Thêm các sự kiện `receive_msg` và `user_joined` vào tab **Events**.
+4. Chuyển qua tab **Message**, dùng `join_room` để vào phòng.
+5. Dùng `send_msg` để bắt đầu trò chuyện.
 4. **Bước 4: Kiểm tra tính năng chuyển cấp độ của Thú ảo (Gamification - Stage 2.2)**
    - Lấy ID (`progress_id`) mà bước 2 trả về.
    - Gọi `PATCH /api/user-tasks/{progress_id}` với Body:

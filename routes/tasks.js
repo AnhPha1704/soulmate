@@ -10,6 +10,8 @@ router.route('/')
     .get(genericController.getAll(Task))
     .post(genericController.create(Task));
 
+router.get('/search', genericController.search(Task));
+
 router.route('/:id')
     .get(genericController.get(Task))
     .patch(genericController.update(Task))

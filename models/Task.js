@@ -33,5 +33,8 @@ const taskSchema = new mongoose.Schema({
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
+// Text index for search on title and description
+taskSchema.index({ title: 'text', description: 'text' });
+
 const Task = mongoose.model('Task', taskSchema);
 module.exports = Task;

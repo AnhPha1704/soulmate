@@ -10,6 +10,8 @@ router.route('/')
     .get(genericController.getAll(MoodLog))
     .post(genericController.create(MoodLog));
 
+router.get('/search', genericController.search(MoodLog));
+
 router.route('/:id')
     .get(genericController.get(MoodLog))
     .patch(genericController.update(MoodLog))

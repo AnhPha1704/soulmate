@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "SoulMate API Collection",
+    "description": "Các bộ API để test chức năng của Ứng dụng theo dõi tâm trạng SoulMate",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Auth",
+      "item": [
+        { "name": "Đăng ký (Register)", "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "http://localhost:3000/api/auth/register", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "auth", "register" ] }, "body": { "mode": "raw", "raw": "{\n    \"username\": \"testuser1\",\n    \"email\": \"user1@test.com\",\n    \"password\": \"123456\"\n}" } } },
+        { "name": "Đăng nhập (Login)", "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "http://localhost:3000/api/auth/login", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "auth", "login" ] }, "body": { "mode": "raw", "raw": "{\n    \"email\": \"user1@test.com\",\n    \"password\": \"123456\"\n}" } } },
+        { "name": "Đăng xuất (Logout)", "request": { "method": "POST", "url": { "raw": "http://localhost:3000/api/auth/logout", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "auth", "logout" ] } } }
+      ]
+    },
+    {
+      "name": "2. Users & Pets",
+      "item": [
+        { "name": "Lấy thông tin cá nhân", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/users/profile", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "users", "profile" ] } } },
+        { "name": "Lấy danh sách Pet", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/pets", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "pets" ] } } }
+      ]
+    },
+    {
+      "name": "3. MoodLogs (Nhật ký)",
+      "item": [
+        { "name": "Tạo Nhật ký (Và nhận gợi ý Task)", "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "http://localhost:3000/api/mood-logs", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ] }, "body": { "mode": "raw", "raw": "{\n    \"mood_type\": \"Buồn\",\n    \"journal_content\": \"Hôm nay tôi rất buồn...\",\n    \"tags\": [\"buồn\", \"mệt\"]\n}" } } },
+        { "name": "Lấy danh sách Nhật ký của bản thân", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ] } } },
+        { "name": "Tìm kiếm Nhật ký (Full-text)", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs/search?q=buồn", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs", "search" ], "query": [ { "key": "q", "value": "buồn" } ] } } }
+      ]
+    },
+    {
+      "name": "4. Stats API (10 Nâng cao)",
+      "item": [
+        { "name": "1. Tổng EXP", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/total-exp", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "total-exp" ] } } },
+        { "name": "2. Đếm Tâm trạng", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/mood-count", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "mood-count" ] } } },
+        { "name": "3. Leaderboard Pet", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/leaderboard", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "leaderboard" ] } } },
+        { "name": "4. Thống kê theo tháng", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/mood-summary", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "mood-summary" ] } } },
+        { "name": "5. Tỉ lệ hoàn thành Task", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/task-completion", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "task-completion" ] } } },
+        { "name": "6. Nội dung Nhật ký & Tên Pet", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/logs-with-info", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "logs-with-info" ] } } },
+        { "name": "7. Thời gian TB hoàn thành", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/avg-completion-time", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "avg-completion-time" ] } } },
+        { "name": "8. Task trễ hơn 24h", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/late-tasks", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "late-tasks" ] } } },
+        { "name": "9. Task Thiền định - High", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/specific-tasks", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "specific-tasks" ] } } },
+        { "name": "10. Pet không tương tác", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/stats/inactive-pets", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "stats", "inactive-pets" ] } } }
+      ]
+    },
+    {
+      "name": "5. Cơ bản API (10 Cơ bản)",
+      "item": [
+        { "name": "1. Tất cả nhật ký của user hiện tại", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ] } } },
+        { "name": "2. Tìm task cho Căng thẳng", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/tasks?mood_target=Căng thẳng", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "tasks" ], "query": [ { "key": "mood_target", "value": "Căng thẳng" } ] } } },
+        { "name": "3. Nhiệm vụ chưa hoàn thành (doing)", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/user-tasks?status=doing", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "user-tasks" ], "query": [ { "key": "status", "value": "doing" } ] } } },
+        { "name": "4. Nhật ký trạng thái Buồn", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs?mood_type=Buồn", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ], "query": [ { "key": "mood_type", "value": "Buồn" } ] } } },
+        { "name": "5. Sắp xếp nhật ký mới nhất lên đầu", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs?sort=-created_at", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ], "query": [ { "key": "sort", "value": "-created_at" } ] } } },
+        { "name": "6. Lọc task ưu tiên High", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/tasks?priority=high", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "tasks" ], "query": [ { "key": "priority", "value": "high" } ] } } },
+        { "name": "7. Lọc task ưu tiên Low", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/tasks?priority=low", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "tasks" ], "query": [ { "key": "priority", "value": "low" } ] } } },
+        { "name": "8. Các task thuộc danh mục Exercise", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/tasks?category=Exercise", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "tasks" ], "query": [ { "key": "category", "value": "Exercise" } ] } } },
+        { "name": "9. Pet đạt cấp 5 trở lên", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/pets?level=5", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "pets" ], "query": [ { "key": "level", "value": "5" } ] } } },
+        { "name": "10. Nhật ký có chứa Tag 'thử nghiệm'", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs/search?q=thử nghiệm", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs", "search" ], "query": [ { "key": "q", "value": "thử nghiệm" } ] } } }
+      ]
+    }
+  ]
+}

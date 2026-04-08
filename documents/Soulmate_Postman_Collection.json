@@ -23,9 +23,10 @@
     {
       "name": "3. MoodLogs (Nhật ký)",
       "item": [
-        { "name": "Tạo Nhật ký (Và nhận gợi ý Task)", "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "http://localhost:3000/api/mood-logs", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ] }, "body": { "mode": "raw", "raw": "{\n    \"mood_type\": \"Buồn\",\n    \"journal_content\": \"Hôm nay tôi rất buồn...\",\n    \"tags\": [\"buồn\", \"mệt\"]\n}" } } },
+        { "name": "Tạo Nhật ký (Và nhận gợi ý Task mồi)", "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "http://localhost:3000/api/mood-logs", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ] }, "body": { "mode": "raw", "raw": "{\n    \"mood_type\": \"Buồn\",\n    \"journal_content\": \"\",\n    \"tags\": []\n}" } } },
+        { "name": "Tạo Nhật ký (Test AI Task cá nhân hóa)", "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "http://localhost:3000/api/mood-logs", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ] }, "body": { "mode": "raw", "raw": "{\n    \"mood_type\": \"Căng thẳng\",\n    \"journal_content\": \"Hôm nay mình thấy rất stress vì công việc quá tải và deadline dồn dập.\",\n    \"tags\": [\"work\", \"stress\"]\n}" } } },
         { "name": "Lấy danh sách Nhật ký của bản thân", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs" ] } } },
-        { "name": "Tìm kiếm Nhật ký (Full-text)", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs/search?q=buồn", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs", "search" ], "query": [ { "key": "q", "value": "buồn" } ] } } }
+        { "name": "Tìm kiếm Nhật ký (Full-text)", "request": { "method": "GET", "url": { "raw": "http://localhost:3000/api/mood-logs/search?q=stress", "protocol": "http", "host": [ "localhost" ], "port": "3000", "path": [ "api", "mood-logs", "search" ], "query": [ { "key": "q", "value": "stress" } ] } } }
       ]
     },
     {

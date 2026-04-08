@@ -1,62 +1,82 @@
 const MoodLog = require('../models/MoodLog');
 const Task = require('../models/Task');
 const UserTask = require('../models/UserTask');
+const aiService = require('../services/aiService'); // Mới: Gọi AI Service
 
 /**
- * Tạo bản ghi tâm trạng mới và Tự động giao nhiệm vụ (Giai đoạn 2.1)
+ * Tạo bản ghi tâm trạng mới và Gợi ý nhiệm vụ thông minh (Hybrid AI System - Giai đoạn 2.1)
  */
 const createMoodLog = async (req, res, next) => {
     try {
-        // 1. Tạo bản ghi nhật ký (MoodLog) nháp
+        const { mood_type, journal_content } = req.body;
+
+        // 1. Lưu bản ghi nhật ký (MoodLog)
         const moodLog = new MoodLog({
             ...req.body,
-            user_id: req.user._id // Gắn chặt log với người dùng đang đăng nhập (bảo mật)
+            user_id: req.user._id
         });
-
-        // 2. Lưu xuống Database
         const savedLog = await moodLog.save();
-
-        // 3. Logic Gợi ý nhiệm vụ (Recommend Task)
-        const currentMood = savedLog.mood_type;
-
-        // Tìm tất cả các Task khớp với tâm trạng hiện tại
-        let suitableTasks = await Task.find({ mood_target: currentMood, is_deleted: { $ne: true } });
-
-        // TÍNH NĂNG DỰ PHÒNG: Nếu chưa có Task nào khớp mood, tìm Task "General"
-        if (suitableTasks.length === 0) {
-            suitableTasks = await Task.find({ mood_target: 'General', is_deleted: { $ne: true } });
-        }
 
         let recommendedTask = null;
         let createdUserTask = null;
 
-        if (suitableTasks.length > 0) {
-            // Random chọn 1 Task phân công để khỏi nhàm chán
-            const randomIndex = Math.floor(Math.random() * suitableTasks.length);
-            recommendedTask = suitableTasks[randomIndex];
+        // 2. ƯU TIÊN 1: THỬ GỢI Ý BẰNG AI (Nếu có nội dung tâm sự)
+        if (journal_content && journal_content.trim().length >= 5) {
+            console.log('--- Đang gọi AI để phân tích và sinh Task cá nhân hóa ---');
+            const aiTaskData = await aiService.generateTaskFromMood(mood_type, journal_content);
+            
+            if (aiTaskData) {
+                // Lưu Task do AI sinh vào Database để quản lý (is_ai_generated: true)
+                const newTask = new Task({
+                    ...aiTaskData,
+                    mood_target: mood_type,
+                    is_ai_generated: true
+                });
+                recommendedTask = await newTask.save();
+                console.log('✅ AI đã sinh Task thành công!');
+            }
+        }
 
-            // 4. Tạo tiến độ nhiệm vụ cho User
+        // 3. ƯU TIÊN 2 (FALLBACK): LẤY TASK CÓ SẴN TỪ KHO (Nếu AI lỗi hoặc ko có nội dung)
+        if (!recommendedTask) {
+            console.log('--- Chế độ Fallback: Đang lấy Task thủ công từ kho ---');
+            // Tìm các Task khớp với mood
+            let suitableTasks = await Task.find({ mood_target: mood_type, is_deleted: { $ne: true } });
+
+            // Nếu ko có task khớp mood, lấy task General
+            if (suitableTasks.length === 0) {
+                suitableTasks = await Task.find({ mood_target: 'General', is_deleted: { $ne: true } });
+            }
+
+            if (suitableTasks.length > 0) {
+                const randomIndex = Math.floor(Math.random() * suitableTasks.length);
+                recommendedTask = suitableTasks[randomIndex];
+            }
+        }
+
+        // 4. GIAO NHIỆM VỤ CHO USER (UserTask)
+        if (recommendedTask) {
             const userTask = new UserTask({
                 user_id: req.user._id,
                 task_id: recommendedTask._id,
                 status: 'pending',
                 assigned_at: Date.now()
             });
-
             createdUserTask = await userTask.save();
         }
 
-        // 5. Trả về kết quả hoàn chỉnh
+        // 5. Phản hồi kết quả
         return res.status(201).json({
             success: true,
             moodLog: savedLog,
             recommendedTask: recommendedTask ? {
                 task_info: recommendedTask,
-                progress_id: createdUserTask._id // ID để sau này dùng PATCH báo cáo hoàn thành
+                progress_id: createdUserTask._id,
+                source: recommendedTask.is_ai_generated ? 'AI Personalization' : 'Master Task Pool'
             } : null,
             message: recommendedTask 
-                ? 'Đã lưu nhật ký và giao nhiệm vụ mới dựa theo tâm trạng!' 
-                : 'Đã lưu nhật ký (Chưa có bài tập phù hợp trong hệ thống để giao)'
+                ? 'Đã lưu nhật ký và gợi ý nhiệm vụ phù hợp!' 
+                : 'Đã lưu nhật ký thành công (Chưa có nhiệm vụ phù hợp).'
         });
 
     } catch (error) {

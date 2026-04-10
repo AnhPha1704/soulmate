@@ -517,11 +517,7 @@ exports.getUsers = async (req, res) => {
         });
     }
 };**
-**# Tài liệu Truy vấn và Thống kê MongoDB - Soulmate Project
-
-Tài liệu này tổng hợp các ví dụ về câu truy vấn (Query) và thống kê (Aggregation) có thể xuất hiện trong các bài kiểm tra hoặc yêu cầu báo cáo của dự án.
-
----
+**
 
 ## Bộ 1: Nhật ký tâm trạng (MoodLog)
 

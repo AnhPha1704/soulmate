@@ -250,8 +250,96 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
       { $lookup: { from: "users", localField: "user_id", foreignField: "_id", as: "owner" } }
     ])
     ```
+**file controller**
+const User = require('../models/User');
 
----
+// @desc    Lấy tất cả người dùng để demo
+// @route   GET /api/tutorial/users
+// @access  Public
+exports.getUsersDemo = async (req, res, next) => {
+    try {
+        // Đây là câu truy vấn (Query) sử dụng Mongoose
+        const users = await User.find();
+
+        res.status(200).json({
+            success: true,
+            count: users.length,
+            data: users
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'Đã xảy ra lỗi khi truy vấn dữ liệu',
+            error: err.message
+        });
+    }
+};
+
+// @desc    Một ví dụ khác: Lấy tên người dùng theo ID
+exports.getUserByIdDemo = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Không tìm thấy người dùng'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: user
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: 'ID không hợp lệ',
+            error: err.message
+        });
+    }
+};
+**file router**
+const express = require('express');
+const router = express.Router();
+const { getUsersDemo, getUserByIdDemo } = require('../controllers/tutorialController');
+
+// Gán đường dẫn với function trong controller
+router.route('/users')
+    .get(getUsersDemo);
+
+router.route('/users/:id')
+    .get(getUserByIdDemo);
+
+module.exports = router;
+**file app**
+var tutorialRouter = require('./routes/tutorialRoutes');
+**vđ**
+const User = require('../models/User');
+
+/**
+ * @desc    Lấy tất cả người dùng để test truy vấn
+ * @route   GET /api/hello
+ * @access  Public
+ */
+exports.getUsers = async (req, res) => {
+    try {
+        // Thực hiện câu truy vấn: tìm tất cả User nhưng loại bỏ password_hash
+        const users = await User.find().select('-password_hash');
+
+        res.status(200).json({
+            success: true,
+            count: users.length,
+            data: users
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Lỗi server khi thực hiện truy vấn',
+            error: error.message
+        });
+    }
+};**
 
 ## 7. LỘ TRÌNH PHÁT TRIỂN CHI TIẾT (DETAILED ROADMAP)
 

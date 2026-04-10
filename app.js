@@ -14,6 +14,7 @@ var moodLogsRouter = require('./routes/moodLogs');
 var tasksRouter = require('./routes/tasks');
 var userTasksRouter = require('./routes/userTasks');
 var statsRouter = require('./routes/stats');
+var helloRouter = require('./routes/helloRoutes');
 
 var app = express();
 
@@ -39,14 +40,15 @@ app.use('/api/mood-logs', moodLogsRouter);
 app.use('/api/tasks', tasksRouter);
 app.use('/api/user-tasks', userTasksRouter);
 app.use('/api/stats', statsRouter);
+app.use('/api/hello', helloRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

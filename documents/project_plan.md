@@ -78,7 +78,184 @@ Dự án được xây dựng theo mô hình **MVC** (Model-View-Controller).
 ### f. Chat Room ẩn danh (Soul Connect)
 * Kết nối thời gian thực (Socket.io) giữa những người dùng có cùng tâm trạng.
 
+---**# Kế hoạch & Các câu hỏi truy vấn dự án Soulmate (Cheat Sheet)
+## 1. Thống kê Tâm trạng (Mood Statistics)
+
+### Câu hỏi 1: Làm sao để đếm số lượng từng loại tâm trạng của một người dùng?
+**Mục tiêu:** Kiểm tra khả năng sử dụng `$group`.
+
+```javascript
+// Mongoose / MongoDB Aggregation
+db.moodlogs.aggregate([
+  { 
+    $match: { 
+      user_id: ObjectId("USER_ID_CẦN_TÌM"), 
+      is_deleted: false 
+    } 
+  },
+  { 
+    $group: { 
+      _id: "$mood_type", 
+      count: { $sum: 1 } 
+    } 
+  }
+]);
+```
+
+### Câu hỏi 2: Tìm tâm trạng xuất hiện nhiều nhất của người dùng trong tháng cụ thể?
+**Mục tiêu:** Kiểm tra khả năng lọc theo thời gian (`$match`), nhóm (`$group`) và sắp xếp (`$sort`).
+
+```javascript
+db.moodlogs.aggregate([
+  {
+    $match: {
+      user_id: ObjectId("USER_ID"),
+      created_at: {
+        $gte: new Date("2024-04-01T00:00:00Z"),
+        $lte: new Date("2024-04-30T23:59:59Z")
+      },
+      is_deleted: false
+    }
+  },
+  { $group: { _id: "$mood_type", count: { $sum: 1 } } },
+  { $sort: { count: -1 } },
+  { $limit: 1 }
+]);
+```
+
 ---
+
+## 2. Quản lý Người dùng & Thú cưng (User & Pet Management)
+
+### Câu hỏi 3: Làm sao để lấy danh sách người dùng kèm theo tên và cấp độ thú cưng của họ?
+**Mục tiêu:** Kiểm tra kiến thức về `$lookup` (tương đương Join trong SQL).
+
+```javascript
+db.users.aggregate([
+  { $match: { is_deleted: false } },
+  {
+    $lookup: {
+      from: "pets",           // Collection cần join
+      localField: "_id",      // Khóa bên bảng User
+      foreignField: "user_id", // Khóa ngoại bên bảng Pet
+      as: "pet_info"          // Tên field kết quả
+    }
+  },
+  { $unwind: { path: "$pet_info", preserveNullAndEmptyArrays: true } },
+  {
+    $project: {
+      username: 1,
+      email: 1,
+      pet_name: "$pet_info.name",
+      pet_level: "$pet_info.level"
+    }
+  }
+]);
+```
+
+### Câu hỏi 4: Tìm thú cưng có cấp độ (Level) cao nhất và chủ sở hữu là ai?
+**Mục tiêu:** Kết hợp sắp xếp và truy vấn ngược từ Pet sang User.
+
+```javascript
+db.pets.aggregate([
+  { $sort: { level: -1 } },
+  { $limit: 1 },
+  {
+    $lookup: {
+      from: "users",
+      localField: "user_id",
+      foreignField: "_id",
+      as: "owner"
+    }
+  },
+  { $unwind: "$owner" },
+  {
+    $project: {
+      pet_name: "$name",
+      level: 1,
+      owner_name: "$owner.username"
+    }
+  }
+]);
+```
+
+---
+
+## 3. Tìm kiếm & Nâng cao (Search & Advanced)
+
+### Câu hỏi 5: Tìm các nhật ký (Mood Logs) có chứa từ khóa liên quan đến "mệt mỏi"?
+**Mục tiêu:** Kiểm tra kiến thức về Text Index và `$text` search.
+
+```javascript
+// Lưu ý: Cần tạo Index text cho field journal_content trước
+// db.moodlogs.createIndex({ journal_content: "text" })
+
+db.moodlogs.find({
+  $text: { $search: "mệt mỏi" },
+  is_deleted: false
+});
+```
+
+### Câu hỏi 6: Tìm những người dùng chưa cập nhật tâm trạng trong vòng 3 ngày qua?
+**Mục tiêu:** Truy vấn ngày tháng phức tạp.
+
+```javascript
+const baNgayTruoc = new Date();
+baNgayTruoc.setDate(baNgayTruoc.getDate() - 3);
+
+db.users.aggregate([
+  {
+    $lookup: {
+      from: "moodlogs",
+      localField: "_id",
+      foreignField: "user_id",
+      as: "logs"
+    }
+  },
+  {
+    $match: {
+      "logs.created_at": { $lt: baNgayTruoc }
+    }
+  }
+]);
+```
+
+---
+
+---
+
+## 5. Quản lý Nhiệm vụ (Tasks & UserTasks)
+
+### Câu hỏi 7: Làm sao để biết một nhiệm vụ đã có bao nhiêu người hoàn thành?
+**Mục tiêu:** Kiểm tra truy vấn trên bảng trung gian (UserTask).
+
+```javascript
+db.usertasks.aggregate([
+  { $match: { status: "Completed" } },
+  {
+    $group: {
+      _id: "$task_id",
+      completion_count: { $sum: 1 }
+    }
+  },
+  {
+    $lookup: {
+      from: "tasks",
+      localField: "_id",
+      foreignField: "_id",
+      as: "task_details"
+    }
+  },
+  { $unwind: "$task_details" },
+  {
+    $project: {
+      task_title: "$task_details.title",
+      completion_count: 1
+    }
+  }
+]);**
+```
+
 
 ## 5. DANH SÁCH API (ENDPOINTS)
 

@@ -517,6 +517,121 @@ exports.getUsers = async (req, res) => {
         });
     }
 };**
+**# Tài liệu Truy vấn và Thống kê MongoDB - Soulmate Project
+
+Tài liệu này tổng hợp các ví dụ về câu truy vấn (Query) và thống kê (Aggregation) có thể xuất hiện trong các bài kiểm tra hoặc yêu cầu báo cáo của dự án.
+
+---
+
+## Bộ 1: Nhật ký tâm trạng (MoodLog)
+
+### 1. Câu hỏi Truy vấn (Query)
+**Yêu cầu:** Tìm tất cả các nhật ký tâm trạng của một người dùng cụ thể (`user_id`) mà có trạng thái tâm trạng là "Vui" và chưa bị xóa.
+
+**Code Mongoose:**
+```javascript
+const moodLogs = await MoodLog.find({
+    user_id: userId,
+    mood_type: 'Vui',
+    is_deleted: false
+}).sort({ created_at: -1 }); // Sắp xếp mới nhất lên đầu
+```
+
+### 2. Câu hỏi Thống kê (Statistics)
+**Yêu cầu:** Thống kê số lượng từng loại tâm trạng của một người dùng để vẽ biểu đồ tròn.
+
+**Code Mongoose (Aggregation):**
+```javascript
+const stats = await MoodLog.aggregate([
+    { 
+        $match: { 
+            user_id: mongoose.Types.ObjectId(userId), 
+            is_deleted: false 
+        } 
+    },
+    { 
+        $group: { 
+            _id: "$mood_type", 
+            count: { $sum: 1 } 
+        } 
+    },
+    { $sort: { count: -1 } }
+]);
+```
+
+---
+
+## Bộ 2: Nhiệm vụ người dùng (UserTask)
+
+### 1. Câu hỏi Truy vấn (Query)
+**Yêu cầu:** Tìm danh sách các nhiệm vụ đang ở trạng thái "pending" (chờ xử lý) của một người dùng.
+
+**Code Mongoose:**
+```javascript
+const pendingTasks = await UserTask.find({
+    user_id: userId,
+    status: 'pending',
+    is_deleted: false
+}).populate('task_id'); // Lấy thêm thông tin chi tiết từ bảng Task
+```
+
+### 2. Câu hỏi Thống kê (Statistics)
+**Yêu cầu:** Thống kê tổng số nhiệm vụ đã hoàn thành ("done") của mỗi người dùng trong hệ thống.
+
+**Code Mongoose (Aggregation):**
+```javascript
+const completedStats = await UserTask.aggregate([
+    { $match: { status: 'done', is_deleted: false } },
+    { 
+        $group: { 
+            _id: "$user_id", 
+            totalCompleted: { $sum: 1 } 
+        } 
+    },
+    {
+        $lookup: { // Kết hợp với bảng User để lấy tên
+            from: "users",
+            localField: "_id",
+            foreignField: "_id",
+            as: "userInfo"
+        }
+    },
+    { $unwind: "$userInfo" },
+    { $project: { username: "$userInfo.username", totalCompleted: 1 } }
+]);
+```
+
+---
+
+## Bộ 3: Hệ thống thú cưng (Pet)
+
+### 1. Câu hỏi Truy vấn (Query)
+**Yêu cầu:** Tìm thông tin thú cưng của một người dùng và kiểm tra xem thú cưng đó có cấp độ (level) lớn hơn 5 hay không.
+
+**Code Mongoose:**
+```javascript
+const advancedPets = await Pet.find({
+    user_id: userId,
+    level: { $gt: 5 }
+});
+```
+
+### 2. Câu hỏi Thống kê (Statistics)
+**Yêu cầu:** Tính điểm kinh nghiệm (EXP) trung bình và cấp độ trung bình của tất cả thú cưng hiện có trong hệ thống.
+
+**Code Mongoose (Aggregation):**
+```javascript
+const petAverages = await Pet.aggregate([
+    {
+        $group: {
+            _id: null, // Nhóm tất cả lại thành 1 nhóm duy nhất
+            avgExp: { $avg: "$exp" },
+            avgLevel: { $avg: "$level" },
+            totalPets: { $sum: 1 }
+        }
+    }
+]);**
+```
 
 ## 7. LỘ TRÌNH PHÁT TRIỂN CHI TIẾT (DETAILED ROADMAP)
 

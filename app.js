@@ -14,7 +14,6 @@ var moodLogsRouter = require('./routes/moodLogs');
 var tasksRouter = require('./routes/tasks');
 var userTasksRouter = require('./routes/userTasks');
 var statsRouter = require('./routes/stats');
-var helloRouter = require('./routes/helloRoutes');
 
 var app = express();
 
@@ -40,7 +39,6 @@ app.use('/api/mood-logs', moodLogsRouter);
 app.use('/api/tasks', tasksRouter);
 app.use('/api/user-tasks', userTasksRouter);
 app.use('/api/stats', statsRouter);
-app.use('/api/hello', helloRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
